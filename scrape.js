@@ -25,6 +25,25 @@ var scrapeEntry = function(person, doneCallback) {
         keywords.push(keywords_root[i].children[0].data);
       }
 
+      var articles = [];
+      var trs = $('.gsc_a_tr');
+      for (var i=0; i<trs.length; i++) {
+        try {
+          if (trs[i].children[1].children[0].attribs['href'].length > 0) {
+            articles.push([trs[i].children[1].children[0].attribs['href'],
+                          trs[i].children[1].children[0].children[0].data]);
+          }
+        } catch (ex) {
+          console.log(ex);
+        }
+      }
+      // console.log(articles[0].children[1].children[0].attribs['href']);
+      // console.log(articles[0].children[1].children[0].children[0].data);
+      // articles.each(function(i, element){
+      // stats['url'] = articles[0].children[1].children[0].attr('href')
+      // }
+
+
       var rawStats = $('#gsc_rsb_st');
       var stats = {
         'citations' : [ rawStats[0].children[1].children[1].children[0].data,
@@ -32,7 +51,8 @@ var scrapeEntry = function(person, doneCallback) {
         'hindex' : [ rawStats[0].children[2].children[1].children[0].data,
                      rawStats[0].children[2].children[2].children[0].data],
         'i10index' : [ rawStats[0].children[3].children[1].children[0].data,
-                       rawStats[0].children[3].children[2].children[0].data]
+                       rawStats[0].children[3].children[2].children[0].data],
+        'articles' : articles
       };
 
       data = {
